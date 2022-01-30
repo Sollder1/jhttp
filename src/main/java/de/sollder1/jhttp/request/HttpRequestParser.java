@@ -1,15 +1,11 @@
 package de.sollder1.jhttp.request;
 
 import de.sollder1.jhttp.config.ConfigManager;
-import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class HttpRequestParser {
 
@@ -64,7 +60,7 @@ public class HttpRequestParser {
 
         }
 
-        return new String(buffer);
+        return new String(buffer).trim();
 
     }
 
