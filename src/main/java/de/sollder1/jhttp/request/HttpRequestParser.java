@@ -22,7 +22,7 @@ public class HttpRequestParser {
         for (int i = 0; i < lines.length; i++) {
             if (i == 0) {
                 var rawParts = blankPattern.split(lines[i]);
-                request.setMethod(HttpMethod.valueOf(rawParts[0]));
+                request.setMethod(rawParts[0]);
                 request.setPath(rawParts[1]);
                 request.setHttpVersion(rawParts[2]);
             } else if (i == lines.length - 1) {

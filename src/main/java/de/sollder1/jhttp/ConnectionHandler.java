@@ -1,10 +1,13 @@
 package de.sollder1.jhttp;
 
+import de.sollder1.jhttp.request.HttpRequest;
 import de.sollder1.jhttp.request.HttpRequestParser;
+import de.sollder1.jhttp.response.DefaultResponses;
+import de.sollder1.jhttp.response.HttpResponse;
+import de.sollder1.jhttp.response.HttpStatus;
+import de.sollder1.jhttp.response.RequestHandler;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 public class ConnectionHandler implements Runnable {
@@ -22,13 +25,30 @@ public class ConnectionHandler implements Runnable {
 
             var inputStream = clientSocket.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            var request = HttpRequestParser.parse(bufferedReader);
-            inputStream.close();
+
+            HttpRequest request = null;
+            HttpResponse response = null;
+
+            try {
+                request = HttpRequestParser.parse(bufferedReader);
+                response = RequestHandler.handle(request);
+            } catch (Throwable throwable) {
+                response = DefaultResponses.getServerError();
+            }
+
+            writeResponseAndClose(response);
 
 
-            clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void writeResponseAndClose(HttpResponse response) throws IOException {
+        var bufferedWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+        bufferedWriter.write(response.serialise());
+        bufferedWriter.flush();
+        clientSocket.close();
+
     }
 }

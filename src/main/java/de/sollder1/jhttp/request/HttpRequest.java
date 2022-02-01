@@ -5,21 +5,21 @@ import java.util.Map;
 
 public class HttpRequest {
 
-    private HttpMethod method;
+    private String method;
     private String path;
     private String httpVersion;
     private Map<String, String> headers = new HashMap<>();
     private String payload;
 
     public void addHeader(String key, String value) {
-
+        headers.put(key, value);
     }
 
-    public HttpMethod getMethod() {
+    public String getMethod() {
         return method;
     }
 
-    public void setMethod(HttpMethod method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 

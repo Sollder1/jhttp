@@ -3,9 +3,9 @@ package de.sollder1.jhttp.config;
 public class ConfigurationPojo {
 
     private int port = 8000;
-    private int executorThreads = 2;
+    private int executorThreads = 4;
     private int defaultBufferSize = 2;
-
+    private String basePath = "/var/jhttp/";
 
     public int getPort() {
         return port;
@@ -29,5 +29,13 @@ public class ConfigurationPojo {
 
     public void setDefaultBufferSize(int defaultBufferSize) {
         this.defaultBufferSize = defaultBufferSize;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 }
